@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { NewNoteCard } from "./componentes/new-note-card";
 import { NoteCard } from "./componentes/note-card";
-
-
 interface Note { 
-
   id: string
   date: Date
   content: string
@@ -13,15 +10,12 @@ interface Note {
 export function App() {
 
   const [search, setSearch] = useState('') 
-
   const [notes, setNotes] = useState<Note[]>(() => {
 
     const notesOnStorage = localStorage.getItem('notes')
-
     if(notesOnStorage) { 
       return JSON.parse(notesOnStorage)
     }
-
     return []
   }) 
 
@@ -32,37 +26,28 @@ export function App() {
       date: new Date(),
       content 
       }
-
-      const notesArray = [newNote, ...notes]
-
+    const notesArray = [newNote, ...notes]
     setNotes(notesArray) 
 
     localStorage.setItem('notes', JSON.stringify(notesArray)) 
   }
 
   function onNoteDeleted(id: string) {
-
     const notesArray = notes.filter(note => {
       return note.id !== id
     }) 
-
     setNotes(notesArray)
-
     localStorage.setItem('notes', JSON.stringify(notesArray)) 
   }
 
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
-
     const query = event.target.value 
-
     setSearch(query)
-
   }
 
   const filteredNotes = search !== '' 
     ? notes.filter(note => note.content.toLocaleLowerCase().includes(search.toLocaleLowerCase())) 
     : notes 
-
   return (
     <div className="mx-auto max-w-6xl my-12 space-y-6 px-5">
 
@@ -83,9 +68,7 @@ export function App() {
 
           {filteredNotes.map(note => (
              <NoteCard key={note.id} note={note} onNoteDeleted={onNoteDeleted}/>
-          ))}
-
-    
+          ))}  
       </div> 
     </div>
     
